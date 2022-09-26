@@ -1,6 +1,6 @@
 {
     "author":"Dan Card <dcard@ortussolutions.com>",
-    "bugs":"",
+    "bugs":"https://github.com/djcard/adobePDFRest/issues",
     "changelog":"",
     "contributors":[],
     "dependencies":{
@@ -9,7 +9,7 @@
     },
     "description":"",
     "devDependencies":{},
-    "documentation":"",
+    "documentation":"https://github.com/djcard/adobePDFRest",
     "homepage":"",
     "ignore":[
         "**/.*",
@@ -28,10 +28,10 @@
     "location":"ForgeboxStorage",
     "name":"Adobe PDF ",
     "private":false,
-    "projectURL":"",
+    "projectURL":"https://github.com/djcard/adobePDFRest",
     "repository":{
-        "type":"",
-        "URL":""
+        "type":"git",
+        "URL":"https://github.com/djcard/adobePDFRest"
     },
     "scripts":{},
     "shortDescription":"A sweet package",
@@ -57,5 +57,5 @@
         "watchPaths":"**.cfc"
     },
     "type":"modules",
-    "version":"0.0.0"
+    "version":"0.0.1"
 }
