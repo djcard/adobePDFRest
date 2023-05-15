@@ -5,7 +5,7 @@
     "contributors":[],
     "dependencies":{
         "jwt-cfml":"^1.2.0",
-        "cfscribe":"^0.0.8"
+        "cfscribe":"^0.0.17"
     },
     "description":"",
     "devDependencies":{},
@@ -16,7 +16,10 @@
         "/test/",
         "/tests/"
     ],
-    "installPaths":{},
+    "installPaths":{
+        "jwt-cfml":"modules/jwtcfml/",
+        "cfscribe":"modules/cfscribe/"
+    },
     "instructions":"",
     "keywords":[],
     "license":[
@@ -57,5 +60,5 @@
         "watchPaths":"**.cfc"
     },
     "type":"modules",
-    "version":"0.0.1"
+    "version":"0.0.7"
 }

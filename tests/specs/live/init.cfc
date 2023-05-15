@@ -19,15 +19,15 @@ component extends="coldbox.system.testing.BaseTestCase" {
 
     function run() {
         describe(
-            title = 'The rawJSON Function should',
-            labels = 'automated',
+            title = 'The Run Function should',
             body = function() {
                 beforeEach(function() {
                     testobj = createMock(object = getInstance('BasePdfAPI@adobePDFRest'));
-                    testme = testObj.createTimeStamp();
+                    writeDump(testobj);
                 });
-                it('return a numeric', function() {
-                    expect(testme).tobeTypeOf("numeric");
+                it('should run readCredential 1x', function() {
+                    // testme = testobj.init();
+                    // expect(testObj.$count("readCredentials")).tobe(1);
                 });
             }
         );

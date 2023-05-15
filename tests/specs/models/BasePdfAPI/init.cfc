@@ -24,25 +24,25 @@ component extends="coldbox.system.testing.BaseTestCase" {
             body = function() {
                 beforeEach(function() {
                     testobj = createMock(object = getInstance('BasePdfAPI@adobePDFRest'));
-                    testObj.$(method="readCredentials");
-                    testObj.$(method="createJWT");
-                    testObj.$(method="obtainApiToken");
+                    testObj.$(method = 'readCredentials');
+                    testObj.$(method = 'createJWT');
+                    testObj.$(method = 'obtainApiToken');
                 });
                 it('should run readCredential 1x', function() {
                     testme = testobj.init();
-                        expect(testObj.$count("readCredentials")).tobe(1);
+                    expect(testObj.$count('readCredentials')).tobe(1);
                 });
                 it('should run createJWT 1x', function() {
                     testme = testobj.init();
-                    expect(testObj.$count("createJWT")).tobe(1);
+                    expect(testObj.$count('createJWT')).tobe(1);
                 });
                 it('should run obtainAPIToken 1x', function() {
                     testme = testobj.init();
-                        expect(testObj.$count("obtainAPIToken")).tobe(1);
+                    expect(testObj.$count('obtainAPIToken')).tobe(1);
                 });
                 it('return an basePdfApi Object', function() {
                     testme = testobj.init();
-                   expect(testme).tobeinstanceOf("basePdfApi");
+                    expect(testme).tobeinstanceOf('basePdfApi');
                 });
             }
         );
