@@ -19,7 +19,7 @@ PDF_API_SCOPES - The scopes requested for the access token. Defaults to openid,A
 
 For More Information: https://developer.adobe.com/document-services/apis/doc-generation/
 
-Using the Adobe Credentials With JWT- ** IMPORTANT **
+Using the Adobe Credentials With JWT- **IMPORTANT**
 If using the JWT method, there are three steps which needs to happen to use the credentials downloaded from the Adobe site
 1. Convert the private.key file using OpenSSL. After installing OpenSSL, open a command line tool and use this command: OpenSSL pkcs8 -topk8 -nocrypt -in private.key -out nameOfTheNewKey
 2. Open the folder downloaded from teh Adobe site and open the pdfservices-api-credentials.json file. Change the "private_key_file" key to point to the newly created key created in step 1. 

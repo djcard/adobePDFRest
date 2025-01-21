@@ -8,6 +8,7 @@ component accessors="true" extends="adobePDFRest.models.BasePdfAPI" {
 	property name="requestid" default="";
 	property name="pollPauseTime" inject="coldbox:setting:pollPauseTime@adobePDFRest";
 	property name="numAttempts" default="1";
+	property name="numRetries" inject="coldbox:setting:numRetries@adobePDFRest";
 
 	function run(
 		required struct mergeData,
@@ -43,7 +44,7 @@ component accessors="true" extends="adobePDFRest.models.BasePdfAPI" {
 
 			return retme;
 		} catch ( any err ) {
-			systemOutput( message = "callFailed", extrainfo = err );
+			systemOutput( err );
 			return err;
 		}
 	}
@@ -113,15 +114,25 @@ component accessors="true" extends="adobePDFRest.models.BasePdfAPI" {
 	function pollForDocument( numeric attemptNumber = 1 ){
 		sleep( getpollPauseTime() );
 		var retme = {
-			status_code : "",
+			status_code : 0,
 			status_text : "",
 			fileWritten : false,
-			fileName    : ""
+			fileName    : "",
+			attempt : arguments.attemptNumber
 		};
+
 		var docResponse   = doPoll();
-		retme.status_code = docResponse.status_code;
-		retme.status_text = docResponse.status_text;
-		if ( docResponse.status_code != 200 ) {
+
+		var numRetries = isValid("numeric",getNumRetries()) ? getNumRetries() : 3;
+
+		var res = docResponse.keyExists( "fileContent" ) ? parseResults( docResponse.fileContent ) : {};
+
+		if(res["cpf:status"].status==500){
+			retme.status_code = 500;
+			retme.status_text = "Error from Adobe.com";
+			return retme;
+		}
+		if (arguments.attemptNumber <= numRetries && docResponse.status_code != 200 ) {
 			var res = docResponse.keyExists( "fileContent" ) ? parseResults( docResponse.fileContent ) : {};
 			if (
 				res.keyExists( "cpf:status" ) && res[ "cpf:status" ].keyExists( "status" ) && res[ "cpf:status" ][
@@ -130,16 +141,14 @@ component accessors="true" extends="adobePDFRest.models.BasePdfAPI" {
 			) {
 				setNumAttempts( arguments.attemptNumber + 1 );
 				return pollForDocument( getNumAttempts() );
-				// writeDump("Just Set docResponse to the new poll data #arguments.attemptNumber#");
-			} else {
-				writeDump( "I got nothing!" );
-				writeDump( res );
-				abort;
 			}
-		};
+		}
 
 		retme.status_code = docResponse.status_code;
 		retme.status_text = docResponse.status_text;
+		if(retme.status_code!==200){
+			return retme;
+		}
 		var fileName      = docResponse.fileContent[ 2 ].headers[ "Content-Disposition" ]
 			.listLast( "=" )
 			.replace( """", "", "all" );
@@ -152,7 +161,7 @@ component accessors="true" extends="adobePDFRest.models.BasePdfAPI" {
 			fileWrite( retme.filePath, docResponse.fileContent[ 2 ].content );
 			retme.fileWritten = true;
 		} catch ( any err ) {
-			systemOutput( message = "file for request #getRequestId()# not written", extraInfo = err );
+			systemOutput( err );
 		}
 		return retme;
 	}
